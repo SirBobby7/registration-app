@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    form { max-width: 400px; margin: auto; }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h2>Register</h2>
+  <form id="regForm">
+    <input type="text" name="fullName" placeholder="Full Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="text" name="phone" placeholder="Phone Number" required />
+    <button type="submit">Register</button>
+    <p id="responseMsg"></p>
+  </form>
+
+  <script>
+    document.getElementById("regForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fullName = e.target.fullName.value;
+      const email = e.target.email.value;
+      const phone = e.target.phone.value;
+
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, email, phone }),
+      });
+
+      const result = await response.json();
+      document.getElementById("responseMsg").innerText = result.message;
+    });
+  </script>
+</body>
+</html>
